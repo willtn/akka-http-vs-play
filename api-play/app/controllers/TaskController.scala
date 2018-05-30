@@ -4,9 +4,12 @@ import java.util.UUID
 
 import akka.actor._
 import akka.pattern.ask
+import akka.routing.FromConfig
 import akka.util.Timeout
 import com.whiteprompt.domain.{Task, TaskEntity}
+import com.whiteprompt.persistence.TaskRepository
 import com.whiteprompt.services.TaskService
+import javax.inject.{Inject, Singleton}
 import play.api.data.Forms._
 import play.api.data._
 import play.api.libs.json._
@@ -17,12 +20,15 @@ import scala.concurrent.{ExecutionContext, Future}
 
 case class TaskData(name: String, description: String) extends Task
 
-class TaskController(val taskService: ActorRef)(implicit val ec: ExecutionContext) extends Controller {
+@Singleton
+class TaskController @Inject() (actorSystem: ActorSystem, cc: ControllerComponents)(implicit val ec: ExecutionContext) extends AbstractController(cc) {
   import TaskService._
   implicit val timeout = Timeout(5 seconds)
 
   implicit val taskImplicitReads = Json.reads[TaskData]
   implicit val taskImplicitWrites = Json.writes[TaskEntity]
+
+  val taskService: ActorRef = actorSystem.actorOf(FromConfig.props(TaskService.props(TaskRepository())), TaskService.Name)
 
   val taskForm = Form(
     mapping(

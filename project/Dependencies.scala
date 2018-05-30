@@ -32,12 +32,12 @@ object Dependencies {
   }
 
   val playDependencies = Seq(
-    "org.scalatestplus" %% "play" % "3.1.0" % "test"
+    "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % "test"
   )
 
   val gatlingDependencies = Seq(
-    "io.gatling.highcharts" % "gatling-charts-highcharts" % "2.3.0" % "test",
-    "io.gatling"            % "gatling-test-framework"    % "2.3.0" % "test"
+    "io.gatling.highcharts" % "gatling-charts-highcharts" % "2.3.1" % "test,it",
+    "io.gatling"            % "gatling-test-framework"    % "2.3.1" % "test,it"
   )
 }
 

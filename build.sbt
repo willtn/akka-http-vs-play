@@ -8,7 +8,7 @@ resolvers += "Typesafe Snapshots" at "http://repo.typesafe.com/typesafe/snapshot
 lazy val commonSettings = Seq(
   organization := "com.whiteprompt",
   version := "0.1.0",
-  scalaVersion := "2.11.8"
+  scalaVersion := "2.12.6"
 )
 
 lazy val root = (project in file("."))
@@ -48,7 +48,7 @@ lazy val apiPlay = Project(
     name := "API Play",
     routesGenerator := InjectedRoutesGenerator,
     libraryDependencies ++= Dependencies.commonDependencies ++ Dependencies.playDependencies ++
-      Dependencies.akkaDependencies
+      Dependencies.akkaDependencies ++ Seq(guice)
   )
   .dependsOn(core % "compile -> compile; test -> test")
 

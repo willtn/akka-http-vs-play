@@ -62,9 +62,9 @@ object TaskService {
 
   val Name = "task-service"
 
-  def props(taskRepository: TaskRepository): Props = {
-    Props(classOf[TaskService], taskRepository)
-  }
+  def props(taskRepository: TaskRepository): Props =
+    Props(new TaskService(taskRepository))
+
 
   case class CreateTask(task: Task)
   case class RetrieveTask(taskId: UUID)
